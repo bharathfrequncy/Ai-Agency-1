@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModelWeave - AI Automation Experts</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent-1: #00d9ff;
+            --accent-2: #ff006e;
+            --accent-3: #8b5cf6;
+            --text-light: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a0033 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        .bg-blur-1 {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -200px;
+            left: -200px;
+            animation: float 20s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        .bg-blur-2 {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -100px;
+            right: -100px;
+            animation: float-reverse 25s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(30px) translateX(20px); }
+        }
+
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-30px) translateX(-20px); }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent-1);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-1);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 5%;
+            position: relative;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: slideUp 1s ease-out 0.2s backwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp 1s ease-out 0.4s backwards;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            color: var(--primary);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(0, 217, 255, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-1);
+            border: 2px solid var(--accent-1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-1);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 5rem;
+            animation: slideUp 1s ease-out 0.6s backwards;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: var(--accent-1);
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-1);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about {
+            padding: 6rem 5%;
+            background: rgba(30, 41, 59, 0.3);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-title span {
+            color: var(--accent-1);
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-3);
+        }
+
+        .feature-item i {
+            color: var(--accent-3);
+            font-size: 1.3rem;
+            margin-top: 0.2rem;
+        }
+
+        .feature-item div h3 {
+            margin-bottom: 0.3rem;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .feature-item div p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .about-visual {
+            position: relative;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(0, 217, 255, 0.1));
+        }
+
+        .about-visual-icon {
+            font-size: 5rem;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .projects {
+            padding: 6rem 5%;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-1);
+            box-shadow: 0 0 40px rgba(0, 217, 255, 0.2);
+        }
+
+        .project-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .project-tag {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--accent-1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent-1);
+        }
+
+        footer {
+            background: rgba(15, 23, 42, 0.8);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--accent-1);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-1);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            color: var(--text-muted);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--accent-1);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-1);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-blur-1"></div>
+    <div class="bg-blur-2"></div>
+
+    <nav>
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            ModelWeave
+        </div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Master <span>AI Automation</span> & <span>LLM Training</span></h1>
+            <p>We are passionate students who've mastered AI automations and personal LLM training based on your organization's unique needs. Transform your business with intelligent automation.</p>
+            
+            <div class="cta-buttons">
+                <button class="btn btn-primary">Get Started</button>
+                <button class="btn btn-secondary">Learn More</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Custom Solutions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Active Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Tech Stacks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2 class="section-title">About <span>ModelWeave</span></h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Who We Are</h2>
+                <p>ModelWeave is a team of dedicated students who have mastered the art of AI automation and personalized LLM training. We specialize in building intelligent systems tailored to your organization's unique requirements.</p>
+                
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-lightning-bolt"></i>
+                        <div>
+                            <h3>Fast Implementation</h3>
+                            <p>Rapid deployment of AI solutions</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-brain"></i>
+                        <div>
+                            <h3>Custom LLM Training</h3>
+                            <p>Personalized models for your needs</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cog"></i>
+                        <div>
+                            <h3>Full Automation</h3>
+                            <p>End-to-end workflow automation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-visual">
+                <div style="text-align: center;">
+                    <div class="about-visual-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <p style="color: var(--text-muted); margin-top: 1rem;">Powered by Latest AI Technology</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects" id="projects">
+        <h2 class="section-title">Our <span>Projects</span></h2>
+        
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>AI Agency</h3>
+                <p>Comprehensive AI solutions for enterprise-level automation, including multi-agent systems, workflow orchestration, and intelligent decision-making platforms.</p>
+                <span class="project-tag">Enterprise</span>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3>Crypto Automation</h3>
+                <p>Intelligent automation for cryptocurrency trading, portfolio management, and blockchain analytics. Real-time market analysis and automated execution.</p>
+                <span class="project-tag">Blockchain</span>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3>YouTube Automation</h3>
+                <p>Complete YouTube management automation including content generation, scheduling, optimization, and audience engagement analytics.</p>
+                <span class="project-tag">Media</span>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Email Automation</h3>
+                <p>Sophisticated email workflows with AI-driven personalization, segmentation, and response automation for maximum engagement.</p>
+                <span class="project-tag">Communication</span>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Data Analysis Automation</h3>
+                <p>Automated data pipeline creation, advanced analytics, predictive modeling, and intelligent reporting systems for actionable insights.</p>
+                <span class="project-tag">Analytics</span>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>LLM Training Services</h3>
+                <p>Custom large language model training and fine-tuning services tailored to your organization's specific domain and requirements.</p>
+                <span class="project-tag">ML/AI</span>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fas fa-brain"></i> ModelWeave</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Mastering AI Automation & LLM Training for the future.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">AI Agency</a></li>
+                    <li><a href="#">Automation</a></li>
+                    <li><a href="#">LLM Training</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><a href="mailto:sitl23cs06@sairamtap.edu.in">sitl23cs06@sairamtap.edu.in</a></li>
+                    <li><a href="mailto:sitl23cs04@sairamtap.edu.in">sitl23cs04@sairamtap.edu.in</a></li>
+                    <li><a href="mailto:sitl23cs03@sairamtab.edu.in">sitl23cs03@sairamtab.edu.in</a></li>
+                    <li><a href="mailto:Santhoshr1901@gmail.com">Santhoshr1901@gmail.com</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="social-links">
+                <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+            <p>&copy; 2024 ModelWeave. All rights reserved. | Crafted with <span style="color: var(--accent-2);">❤</span> by AI Students</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add scroll animation for elements
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-card, .stat-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
